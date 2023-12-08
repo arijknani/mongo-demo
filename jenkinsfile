@@ -8,24 +8,11 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                // Build the Spring Boot project
-                sh 'mvn clean install'
-            }
-        }
-
         stage('Test') {
             steps {
-                // Run automated tests
-                sh 'mvn test'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Deploy the Spring Boot application (if needed)
-                sh 'mvn spring-boot:run'
+                script {
+                    sh './mvnw test' // Assuming Maven is used
+                }
             }
         }
     }
