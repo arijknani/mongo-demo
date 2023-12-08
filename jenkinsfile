@@ -1,12 +1,11 @@
 pipeline {
     agent any
     
-    environment {
-        JAVA_HOME = '/usr/lib64/jvm/jre-17-openjdk'
-        M2_HOME = '/usr/share/maven'
-        PATH = "$JAVA_HOME/bin:$M2_HOME/bin:$PATH"
+    tools {
+        // Define the Maven tool with the desired version
+        maven 'maven 3.9.4'
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
@@ -17,7 +16,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh './mvnw clean install'
+                    echo 'building the app...'
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -25,11 +25,13 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    echo 'running tests...'
                     sh 'mvn test'
                 }
             }
         }
     }
 }
+
 
 
