@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         JAVA_HOME = '/var/lib/jenkins/jdk-17'
-        PATH = "$JAVA_HOME/bin:$PATH"
+        //PATH = "$JAVA_HOME/bin:$PATH"
+        PATH = "$HOME/.local/bin:$PATH"
         KUBERNETES_NAMESPACE = 'default'  
         KUBERNETES_CLOUD = 'my-k8s-cloud'  
         KUBE_CONFIG = '/var/lib/jenkins/.kube/config'
@@ -20,8 +21,8 @@ pipeline {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
-                    sh 'sudo install minikube-linux-amd64 /usr/local/bin/minikube'
-                    sh 'minikube start'
+                    sh 'install minikube-linux-amd64 $HOME/.local/bin/minikube'
+                    sh '$HOME/.local/bin/minikube start'
                 }
             }
         }
@@ -38,6 +39,15 @@ pipeline {
             }
         }
         */
+
+        /*stage('Setup Minikube') {
+            steps {
+                script {
+                    sh 'minikube start'
+                    sh 'minikube update-context'
+                }
+            }
+        }*/       
 
         stage('Docker Build') {
             steps {
