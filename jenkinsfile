@@ -25,6 +25,21 @@ pipeline {
         }
         */
 
+        stage('Docker Build') {
+            steps {
+                script {
+                    // Build Docker image
+                    def dockerImageName = "arijknani/springbootapp"
+                    def dockerBuildStatus = sh(script: "docker build -t $dockerImageName .", returnStatus: true)
+                    if (dockerBuildStatus == 0) {
+                        echo 'Docker build successful!'
+                    } else {
+                        error 'Docker build failed!'
+                    }
+                }
+            }
+        }
+
         stage('Docker Login') {
             steps {
                 script {
@@ -41,6 +56,22 @@ pipeline {
             }
         }
 
+        stage('Docker Push') {
+            steps {
+                script {
+                    // Push Docker image
+                    def dockerImageName = "arijknani/springbootapp" 
+                    def dockerPushStatus = sh(script: "docker push $dockerImageName", returnStatus: true)
+                    
+                    if (dockerPushStatus == 0) {
+                        echo 'Docker push successful!'
+                    } else {
+                        error 'Docker push failed!'
+                    }
+                }
+            }
+        }
+
         stage('Test') {
             steps {
                 script {
@@ -50,4 +81,3 @@ pipeline {
         }
     }
 }
-
