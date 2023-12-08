@@ -12,7 +12,7 @@ pipeline {
         stage('Build Maven'){
             steps{
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/arijknani/mongo-demo.git']]])
-                sh 'mvn clean install'
+                sh './mvnw clean install'
             }
         }
     }
