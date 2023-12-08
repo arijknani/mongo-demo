@@ -59,15 +59,20 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
+
+
+                    docker.withRegistry('https://hub.docker.com/', 'dockerhub') {
+                        docker.image("arijknani/springbootapp").push()
+
                     // Push Docker image
-                    def dockerImageName = "arijknani/springbootapp" 
+                    /*def dockerImageName = "arijknani/springbootapp" 
                     def dockerPushStatus = sh(script: "docker push $dockerImageName", returnStatus: true)
                     
                     if (dockerPushStatus == 0) {
                         echo 'Docker push successful!'
                     } else {
                         error 'Docker push failed!'
-                    }
+                    }*/
                 }
             }
         }
@@ -76,7 +81,7 @@ pipeline {
             steps{
                 script{
                     // Pull the Docker image
-                    docker.withRegistry('https://registry.hub.docker.com', 'arijknani') {
+                    docker.withRegistry('https://hub.docker.com/', 'dockerhub') {
                         docker.image("arijknani/springbootapp").pull()
                     }
                 }
