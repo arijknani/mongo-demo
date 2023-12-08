@@ -62,7 +62,7 @@ pipeline {
                     // Push Docker image
                     def dockerImageName = "arijknani/springbootapp" 
                     
-                    docker.withRegistry('https://hub.docker.com/', 'dockerhub') {
+                    docker.withRegistry('docker.io', 'dockerhub') {
                         def dockerPushStatus = docker.image(dockerImageName).push()
 
                         if (dockerPushStatus) {
@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     // Pull the Docker image
-                    docker.withRegistry('https://hub.docker.com/', 'dockerhub') {
+                    docker.withRegistry('docker.io', 'dockerhub') {
                         docker.image("arijknani/springbootapp").pull()
                     }
                 }
