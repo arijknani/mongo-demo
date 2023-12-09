@@ -17,18 +17,20 @@ pipeline {
 
     stages {
 
-        /*stage('Install Minikube') {
+        stage('Install Minikube') {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
                     sh 'mkdir -p /var/lib/jenkins/.local/bin/'
                     sh 'install minikube-linux-amd64 /var/lib/jenkins/.local/bin/minikube'
                     sh '/var/lib/jenkins/.local/bin/minikube start'
+                    sh 'minikube status'
+                    
                 }
             }
-        }*/
+        }
 
-        stage('Install kubectl') {
+        /*stage('Install kubectl') {
             steps {
                 script {
                     sh '''
@@ -40,17 +42,17 @@ pipeline {
             '''
                 }
             }
-        }
+        }*/
 
 
-        stage('Setup and Configure Kubernetes') {
+        /*stage('Setup and Configure Kubernetes') {
             steps {
                 script {
                     sh 'minikube start'
                     sh 'kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
                 }
             }
-        }
+        }*/
 
 
         /* Commenting out the Build Maven stage
