@@ -52,10 +52,16 @@ pipeline {
         }
 
         stage('deployment '){
-            sh '/var/lib/jenkins/.local/bin/minikube status'
-            sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
-            sh '/var/lib/jenkins/.local/bin/kubectl get nodes cluster-info'
-            sh '/var/lib/jenkins/.local/bin/kubectl apply -f kubernetes/deployment.yaml'
+            steps{
+                script{
+                    sh '/var/lib/jenkins/.local/bin/minikube status'
+                    sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
+                    sh '/var/lib/jenkins/.local/bin/kubectl get nodes cluster-info'
+                    sh '/var/lib/jenkins/.local/bin/kubectl apply -f kubernetes/deployment.yaml'
+
+                }
+            }
+            
         }
 
 
