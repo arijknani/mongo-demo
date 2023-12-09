@@ -27,16 +27,17 @@ pipeline {
                 }
             }
         }*/
-        
+
         stage('Install kubectl') {
             steps {
                 script {
-                    sh ' curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl'
-                    sh ' curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl.sha256'
-                    sh 'echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check'
-                    sh 'chmod +x kubectl'
-                    sh 'mkdir -p /var/lib/jenkins/.local/bin'
-                    sh 'mv ./kubectl /var/lib/jenkins/.local/bin/kubectl'
+                    sh '''
+                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &&
+                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" &&
+                echo "$(cat kubectl.sha256) kubectl" | sha256sum --check &&
+                chmod +x kubectl &&
+                mv kubectl /var/lib/jenkins/.local/bin/
+            '''
                 }
             }
         }
