@@ -43,12 +43,12 @@ pipeline {
         /stage('Install kubectl') {
             steps {
                 script {
-                    sh '''
-                curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-                chmod +x kubectl
-                mv kubectl /var/lib/jenkins/.local/bin/
-                var/lib/jenkins/.local/bin/kubectl version -o yaml
-            '''
+                     
+                sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
+                sh 'chmod +x kubectl'
+                sh 'mv kubectl /var/lib/jenkins/.local/bin/'
+                sh 'var/lib/jenkins/.local/bin/kubectl version -o yaml'
+           
                 }
             }
         }
