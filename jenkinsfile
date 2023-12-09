@@ -24,7 +24,8 @@ pipeline {
                     sh 'mkdir -p /var/lib/jenkins/.local/bin/'
                     sh 'install minikube-linux-amd64 /var/lib/jenkins/.local/bin/minikube'
                     sh '/var/lib/jenkins/.local/bin/minikube start'
-                    sh 'minikube status'
+                    
+                    sh '/var/lib/jenkins/.local/bin/minikube status'
                     
                 }
             }
