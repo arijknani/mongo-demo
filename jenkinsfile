@@ -56,7 +56,7 @@ pipeline {
                 script{
                     sh '/var/lib/jenkins/.local/bin/minikube status'
                     sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
-                    sh '/var/lib/jenkins/.local/bin/kubectl apply -f kubernetes/deployment.yaml'
+                    sh '/var/lib/jenkins/.local/bin/kubectl apply -f /home/arij/Desktop/exam-devops/mongo-demo/deployment.yaml'
 
                 }
             }
