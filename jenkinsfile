@@ -17,33 +17,41 @@ pipeline {
 
     stages {
 
-        stage('Install Minikube') {
+        /*stage('Install Minikube') {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
                     sh 'mkdir -p /var/lib/jenkins/.local/bin/'
                     sh 'install minikube-linux-amd64 /var/lib/jenkins/.local/bin/minikube'
                     sh '/var/lib/jenkins/.local/bin/minikube start'
-                    
                     sh '/var/lib/jenkins/.local/bin/minikube status'
+                    
+                }
+            }
+        }*/
+
+        stage('minikube start') {
+            steps {
+                script {
+                    sh '/var/lib/jenkins/.local/bin/minikube start'
                     
                 }
             }
         }
 
-        /*stage('Install kubectl') {
+        
+        /stage('Install kubectl') {
             steps {
                 script {
                     sh '''
-                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &&
-                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" &&
-                echo "$(cat kubectl.sha256) kubectl" | sha256sum --check &&
-                chmod +x kubectl &&
+                curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+                chmod +x kubectl
                 mv kubectl /var/lib/jenkins/.local/bin/
+                var/lib/jenkins/.local/bin/kubectl version -o yaml
             '''
                 }
             }
-        }*/
+        }
 
 
         /*stage('Setup and Configure Kubernetes') {
@@ -101,7 +109,7 @@ pipeline {
             }
         }
 
-        stage('Docker Push') {
+        /*stage('Docker Push') {
             steps {
                 script {
                     // Push Docker image
@@ -113,9 +121,9 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
-        stage('Pull') {
+        /*stage('Pull') {
             steps {
                 script {
                     // Pull the Docker image
@@ -124,26 +132,26 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
     
 
-        stage('Docker Compose UP') {
+        /*stage('Docker Compose UP') {
             steps {
                 script {
                     sh 'docker-compose down'
                     sh 'docker-compose up -d'
                 }
             }
-        }
+        }*/
 
-        stage('Deploy to Minikube') {
+        /*stage('Deploy to Minikube') {
             steps {
                 script {
                     // Deploy to Minikube
                     sh 'kubectl apply -f kubernetes/deployment.yaml'
                 }
             }
-        }
+        }*/
 
 
 
