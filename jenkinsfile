@@ -5,9 +5,9 @@ pipeline {
         JAVA_HOME = '/var/lib/jenkins/jdk-17'
         //PATH = "$JAVA_HOME/bin:$PATH"
         //PATH = "$HOME/.local/bin:$PATH"
-        KUBERNETES_NAMESPACE = 'default'  
+        /*KUBERNETES_NAMESPACE = 'default'  
         KUBERNETES_CLOUD = 'my-k8s-cloud'  
-        KUBE_CONFIG = '/var/lib/jenkins/.kube/config'
+        KUBE_CONFIG = '/var/lib/jenkins/.kube/config'*/
     }
 
     tools {
@@ -49,6 +49,13 @@ pipeline {
                     sh '/var/lib/jenkins/.local/bin/kubectl version -o yaml'
                 }
             }
+        }
+
+        stage('deployment '){
+            sh '/var/lib/jenkins/.local/bin/minikube status'
+            sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
+            sh '/var/lib/jenkins/.local/bin/kubectl get nodes cluster-info'
+            sh '/var/lib/jenkins/.local/bin/kubectl apply -f kubernetes/deployment.yaml'
         }
 
 
