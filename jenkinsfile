@@ -14,68 +14,6 @@ pipeline {
 
     stages {
 
-        /*stage('Install Minikube') {
-            steps {
-                script {
-                    sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
-                    sh 'mkdir -p /var/lib/jenkins/.local/bin/'
-                    sh 'install minikube-linux-amd64 /var/lib/jenkins/.local/bin/minikube'
-                    sh 'sudo systemctl enable kubelet.service'
-                    sh '/var/lib/jenkins/.local/bin/minikube start'
-                    sh '/var/lib/jenkins/.local/bin/minikube enable'
-
-                    sh '/var/lib/jenkins/.local/bin/minikube status'
-                    
-                }
-            }
-        }*/
-
-        /*stage('minikube start') {
-            steps {
-                script {
-                    sh '/var/lib/jenkins/.local/bin/minikube start'
-                    
-                }
-            }
-        }*/
-
-        
-        /*stage('Install kubectl') {
-            steps {
-                script {
-                    sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
-                    sh 'chmod +x kubectl'
-                    sh 'mv kubectl /var/lib/jenkins/.local/bin/'
-                    
-                    sh '/var/lib/jenkins/.local/bin/kubectl version -o yaml'
-                }
-            }
-        }*/
-
-        stage('deployment '){
-            steps{
-                script{
-                    sh '/var/lib/jenkins/.local/bin/minikube status'
-                    sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
-                    sh '/var/lib/jenkins/.local/bin/kubectl apply -f /home/arij/Desktop/exam-devops/mongo-demo/deployment.yaml'
-
-                }
-            }
-            
-        }
-
-
-        stage('Setup and Configure Kubernetes') {
-            steps {
-                script {
-                    //sh '/var/lib/jenkins/.local/bin/minikube start'
-                    sh '/var/lib/jenkins/.local/bin/kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
-                }
-            }
-        }
-
-
-        
         stage('Build Maven') {
             steps {
                 script {
@@ -86,7 +24,14 @@ pipeline {
                 sh 'mvn clean install -U'
             }
         }
-        
+        stage('Setup and Configure Kubernetes') {
+            steps {
+                script {
+                    sh '/var/lib/jenkins/.local/bin/kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
+                }
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 script {
@@ -155,18 +100,16 @@ pipeline {
             }
         }
 
-        stage('Deploy to Minikube') {
-            steps {
-                script {
-                    // Deploy to Minikube
-                    sh '/var/lib/jenkins/.local/bin/kubectl apply -f kubernetes/deployment.yaml'
-                 
-}
+        stage('deployment '){
+            steps{
+                script{
+                    //sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
+                    sh '/var/lib/jenkins/.local/bin/kubectl -- apply -f /home/arij/Desktop/exam-devops/mongo-demo/deployment.yaml'
 
+                }
             }
+            
         }
-
-
 
 
         stage('Test') {
