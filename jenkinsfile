@@ -156,6 +156,14 @@ pipeline {
                 script {
                     // Deploy to Minikube
                     sh 'kubectl apply -f kubernetes/deployment.yaml'
+                    minikubeIP = sh(script: 'minikube ip', returnStdout: true).trim()
+    
+                    // Get the NodePort assigned
+                    def nodePort = sh(script: 'kubectl get svc service/springbootapp-service -o=jsonpath="{.spec.ports[0].nodePort}"', returnStdout: true).trim()
+    
+                    // Access the application using the Minikube IP and NodePort
+                    echo "Your application is accessible at: http://${minikubeIP}:${nodePort}"
+
                 }
             }
         }
