@@ -20,6 +20,7 @@ pipeline {
                     sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
                     sh 'mkdir -p /var/lib/jenkins/.local/bin/'
                     sh 'install minikube-linux-amd64 /var/lib/jenkins/.local/bin/minikube'
+                    sh 'systemctl enable kubelet.service'
                     sh '/var/lib/jenkins/.local/bin/minikube start'
                     sh '/var/lib/jenkins/.local/bin/minikube enable'
 
