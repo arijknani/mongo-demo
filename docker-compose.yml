@@ -1,8 +1,8 @@
 version: '3'
 services:
-  mongodb:
+  mongo-service:
     image: mongo
-    container_name: mongodb
+    container_name: mongo-service
     ports:
       - "27017:27017"
     environment:
@@ -13,10 +13,10 @@ services:
       - ~/db:/data/db
   springbootapp:
     image: arijknani/springbootapp
-    build: .
+    container_name: springbootapp
     ports:
       - "9090:9090"
-    environment:
-      SPRING_DATASOURCE_URL: mongodb://gte3:gte3@mongo-service:27017/gte3?authSource=admin&readPreference=primaryPreferred&directConnection=true
+    # environment:
+      # SPRING_DATASOURCE_URL: mongodb://gte3:gte3@mongo-service:27017/gte3?authSource=admin&readPreference=primaryPreferred&directConnection=true
     depends_on:
       - mongodb
