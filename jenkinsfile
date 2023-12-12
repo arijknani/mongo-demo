@@ -104,7 +104,8 @@ pipeline {
             steps{
                 script{
                     //sh '/var/lib/jenkins/.local/bin/kubectl get nodes '
-                    sh '/var/lib/jenkins/.local/bin/kubectl -- apply -f /home/arij/Desktop/exam-devops/mongo-demo/deployment.yaml'
+                    sh '/var/lib/jenkins/.local/bin/kubectl -- apply -f /home/arij/Desktop/exam-devops/mongo-demo/deployment.yml'
+                    sh '/var/lib/jenkins/.local/bin/kubectl -- apply -f /home/arij/Desktop/exam-devops/mongo-demo/mongo-deployment.yml'
 
                 }
             }
