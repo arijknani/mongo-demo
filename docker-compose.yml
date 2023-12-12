@@ -1,22 +1,33 @@
-version: '3'
+version: "3"
+
 services:
-  mongo-service:
-    image: mongo
-    container_name: mongo-service
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: gte3
-      MONGO_INITDB_ROOT_PASSWORD: gte3
-      MONGO_INITDB_DATABASE: gte3
-    volumes:
-      - ~/db:/data/db
-  springbootapp:
+  spring-app:
     image: arijknani/springbootapp
-    container_name: springbootapp
+    container_name: "springbootapp"
     ports:
-      - "9090:9090"
-    # environment:
-      # SPRING_DATASOURCE_URL: mongodb://gte3:gte3@mongo-service:27017/gte3?authSource=admin&readPreference=primaryPreferred&directConnection=true
+      - 9090:9090
+    networks:
+      - mynetwork
     depends_on:
       - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: "mongo-service"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+    volumes:
+      - student-data:/data/db
+
+volumes:
+  student-data:
+
+networks:
+  mynetwork:
+    driver: bridge
+
