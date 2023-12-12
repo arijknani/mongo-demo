@@ -29,14 +29,14 @@ pipeline {
             }
         }
 
-        stage('minikube start') {
+        /*stage('minikube start') {
             steps {
                 script {
                     sh '/var/lib/jenkins/.local/bin/minikube start'
                     
                 }
             }
-        }
+        }*/
 
         
         stage('Install kubectl') {
