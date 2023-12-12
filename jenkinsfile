@@ -14,7 +14,7 @@ pipeline {
 
     stages {
 
-        /*stage('Install Minikube') {
+        stage('Install Minikube') {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
@@ -25,7 +25,7 @@ pipeline {
                     
                 }
             }
-        }*/
+        }
 
         stage('minikube start') {
             steps {
@@ -64,7 +64,7 @@ pipeline {
         stage('Setup and Configure Kubernetes') {
             steps {
                 script {
-                    //sh '/var/lib/jenkins/.local/bin/minikube start'
+                    sh '/var/lib/jenkins/.local/bin/minikube start'
                     sh '/var/lib/jenkins/.local/bin/kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
                 }
             }
