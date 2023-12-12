@@ -14,7 +14,7 @@ pipeline {
 
     stages {
 
-        stage('Install Minikube') {
+        /*stage('Install Minikube') {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
@@ -25,7 +25,7 @@ pipeline {
                     
                 }
             }
-        }
+        }*/
 
         stage('minikube start') {
             steps {
@@ -37,7 +37,7 @@ pipeline {
         }
 
         
-        stage('Install kubectl') {
+        /*stage('Install kubectl') {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
@@ -46,7 +46,7 @@ pipeline {
                     sh '/var/lib/jenkins/.local/bin/kubectl version -o yaml'
                 }
             }
-        }
+        }*/
 
         stage('deployment '){
             steps{
@@ -64,8 +64,8 @@ pipeline {
         stage('Setup and Configure Kubernetes') {
             steps {
                 script {
-                    sh 'minikube start'
-                    sh 'kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
+                    sh '/var/lib/jenkins/.local/bin/minikube start'
+                    sh '/var/lib/jenkins/.local/bin/kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
                 }
             }
         }
@@ -155,16 +155,16 @@ pipeline {
             steps {
                 script {
                     // Deploy to Minikube
-                    sh 'kubectl apply -f kubernetes/deployment.yaml'
+                    sh '/var/lib/jenkins/.local/bin/kubectl apply -f kubernetes/deployment.yaml'
                     minikubeIP = sh(script: 'minikube ip', returnStdout: true).trim()
-    
+
                     // Get the NodePort assigned
-                    def nodePort = sh(script: 'kubectl get svc service/springbootapp-service -o=jsonpath="{.spec.ports[0].nodePort}"', returnStdout: true).trim()
-    
+                    def nodePort = sh(script: '/var/lib/jenkins/.local/bin/kubectl get svc service/springbootapp-service -o=jsonpath="{.spec.ports[0].nodePort}"', returnStdout: true).trim()
+
                     // Access the application using the Minikube IP and NodePort
                     echo "Your application is accessible at: http://${minikubeIP}:${nodePort}"
+}
 
-                }
             }
         }
 
