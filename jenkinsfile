@@ -21,6 +21,8 @@ pipeline {
                     sh 'mkdir -p /var/lib/jenkins/.local/bin/'
                     sh 'install minikube-linux-amd64 /var/lib/jenkins/.local/bin/minikube'
                     sh '/var/lib/jenkins/.local/bin/minikube start'
+                    sh '/var/lib/jenkins/.local/bin/minikube enable'
+
                     sh '/var/lib/jenkins/.local/bin/minikube status'
                     
                 }
@@ -43,6 +45,7 @@ pipeline {
                     sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
                     sh 'chmod +x kubectl'
                     sh 'mv kubectl /var/lib/jenkins/.local/bin/'
+                    
                     sh '/var/lib/jenkins/.local/bin/kubectl version -o yaml'
                 }
             }
@@ -64,7 +67,7 @@ pipeline {
         stage('Setup and Configure Kubernetes') {
             steps {
                 script {
-                    sh '/var/lib/jenkins/.local/bin/minikube start'
+                    //sh '/var/lib/jenkins/.local/bin/minikube start'
                     sh '/var/lib/jenkins/.local/bin/kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
                 }
             }
