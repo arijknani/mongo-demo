@@ -37,7 +37,7 @@ pipeline {
         }
 
         
-        /*stage('Install kubectl') {
+        stage('Install kubectl') {
             steps {
                 script {
                     sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl'
@@ -46,7 +46,7 @@ pipeline {
                     sh '/var/lib/jenkins/.local/bin/kubectl version -o yaml'
                 }
             }
-        }*/
+        }
 
         stage('deployment '){
             steps{
@@ -64,7 +64,7 @@ pipeline {
         stage('Setup and Configure Kubernetes') {
             steps {
                 script {
-                    sh '/var/lib/jenkins/.local/bin/minikube start'
+                    //sh '/var/lib/jenkins/.local/bin/minikube start'
                     sh '/var/lib/jenkins/.local/bin/kubectl config set-context minikube --namespace=$KUBERNETES_NAMESPACE --cluster=$KUBERNETES_CLOUD --kubeconfig=$KUBE_CONFIG'
                 }
             }
